@@ -68,11 +68,23 @@
   }
 }
 
+@font-face {
+  font-family: "generalSans";
+  src:
+    url("./fonts/generalSans-regular.woff2") format("woff2"),
+    url("./fonts/generalSans-regular.woff") format("woff"),
+    url("./fonts/generalSans-regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
 @layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
+    font-family: "generalSans";
   }
 }

@@ -1,5 +1,4 @@
 import "./assets/index.css";
-import "vue-fast-marquee/style.css";
 
 import { createApp } from "vue";
 import { createPinia } from "pinia";
