@@ -4,6 +4,7 @@ import { useColorMode } from "@vueuse/core";
 import { Toaster } from "@/components/ui/sonner";
 import { useFps, useBattery } from "@vueuse/core";
 import { Icon } from "@iconify/vue";
+import { computed } from "vue";
 
 const mode = useColorMode();
 
