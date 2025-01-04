@@ -47,9 +47,9 @@ import ChatMessageList from "@/components/custom/ChatMessageList.vue";
       <ResizableHandle with-handle />
       <ResizablePanel>
         <div
-          class="w-full h-full flex flex-col justify-between divide-y divide-border"
+          class="w-full h-full flex flex-col  justify-between divide-y divide-border"
         >
-          <ScrollArea class="w-full h-full pr-1.5">
+          <ScrollArea class="w-full h-full px-1.5">
             <ChatMessageList />
           </ScrollArea>
           <form class="w-ful p-4 space-y-2.5">

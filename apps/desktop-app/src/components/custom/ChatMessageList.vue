@@ -15,41 +15,29 @@ import { Button } from "@/components/ui/button";
   <ul>
     <ContextMenu as="li">
       <ContextMenuTrigger>
-        <div class="py-1 px-1 w-full">
-          <div class="message-box my">Lorem</div>
+        <div class="py-1.5 px-1 w-full">
+          <div class="message-box">Lorem</div>
         </div>
       </ContextMenuTrigger>
       <ContextMenuContent class="w-52">
-        <ContextMenuItem>Edit</ContextMenuItem>
-        <ContextMenuItem>Copy Text</ContextMenuItem>
+        <ContextMenuItem>
+          <Icon icon="bi:reply" class="mr-3 size-4" />
+          Replay</ContextMenuItem
+        >
+        <ContextMenuItem>
+          <Icon icon="teenyicons:edit-outline" class="mr-3" />
+          Edit</ContextMenuItem
+        >
+        <ContextMenuItem>
+          <Icon icon="teenyicons:note-outline" class="mr-3" />
+          Copy Text</ContextMenuItem
+        >
         <ContextMenuItem class="text-destructive">
           <Icon icon="teenyicons:bin-outline" class="mr-3" />
           Delete</ContextMenuItem
         >
         <ContextMenuSeparator />
-        <ContextMenuItem>Delete</ContextMenuItem>
-      </ContextMenuContent>
-    </ContextMenu>
-    <ContextMenu as="li">
-      <ContextMenuTrigger>
-        <div class="py-1 px-1 w-full">
-          <div class="message-box">
-            Lorem Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Consectetur nesciunt reiciendis delectus reprehenderit soluta cum
-            modi beatae architecto in iste impedit esse numquam amet aliquam
-            vero adipisci vel.
-          </div>
-        </div>
-      </ContextMenuTrigger>
-      <ContextMenuContent class="w-52">
-        <ContextMenuItem>Edit</ContextMenuItem>
-        <ContextMenuItem>Copy Text</ContextMenuItem>
-        <ContextMenuItem class="text-destructive">
-          <Icon icon="teenyicons:bin-outline" class="mr-3" />
-          Delete</ContextMenuItem
-        >
-        <ContextMenuSeparator />
-        <ContextMenuItem>Delete</ContextMenuItem>
+        <ContextMenuItem disabled>4:00 PM</ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
   </ul>
@@ -57,10 +45,10 @@ import { Button } from "@/components/ui/button";
 
 <style scoped>
 .message-box {
-  @apply max-w-96 py-1 px-2.5 text-base rounded-lg text-wrap w-fit bg-secondary border border-transparent text-start;
+  @apply max-w-96 py-1 px-2.5 text-sm rounded-md text-wrap w-fit bg-secondary border border-transparent text-start;
 }
 
 .message-box.my {
-  @apply text-end ml-auto bg-transparent border-border text-primary;
+  @apply text-end ml-auto  border-input text-primary shadow-sm;
 }
 </style>
