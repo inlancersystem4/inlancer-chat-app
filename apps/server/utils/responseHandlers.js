@@ -10,7 +10,7 @@ const successResponseWithData = (res, msg, data) => {
 
 const errorResponse = (res, msg) => {
   const data = { success: 0, message: msg };
-  return res.status(200).json(data);
+  return res.status(500).json(data);
 };
 
 const notFoundResponse = (res, msg) => {

@@ -11,6 +11,10 @@ import {
 import { Icon } from "@iconify/vue";
 import ChatUserList from "@/components/custom/ChatUserList.vue";
 import ChatMessageList from "@/components/custom/ChatMessageList.vue";
+import MenuDialog from "@/components/custom/MenuDialog.vue";
+import { ref } from "vue";
+
+const toggleMenu = ref(false);
 </script>
 
 <template>
@@ -19,8 +23,14 @@ import ChatMessageList from "@/components/custom/ChatMessageList.vue";
       <ResizablePanel max-size="20">
         <div class="flex flex-col w-full h-full divide-y divide-border">
           <div class="py-1.5 px-1 flex items-start gap-2">
-            <Button size="icon" variant="ghost" class="max-w-8 max-h-8">
+            <Button
+              size="icon"
+              variant="ghost"
+              class="max-w-8 max-h-8"
+              @click="toggleMenu = !toggleMenu"
+            >
               <Icon icon="teenyicons:menu-outline" />
+              <MenuDialog v-if="toggleMenu" />
             </Button>
             <div class="relative w-full">
               <Input
@@ -47,7 +57,7 @@ import ChatMessageList from "@/components/custom/ChatMessageList.vue";
       <ResizableHandle with-handle />
       <ResizablePanel>
         <div
-          class="w-full h-full flex flex-col  justify-between divide-y divide-border"
+          class="w-full h-full flex flex-col justify-between divide-y divide-border"
         >
           <ScrollArea class="w-full h-full px-1.5">
             <ChatMessageList />

@@ -53,7 +53,7 @@ router.beforeEach((to, from, next) => {
   console.log(from);
 
   const sessionStore = useSessionStore();
-  const isAuthenticated = sessionStore.sessionToken.value;
+  const isAuthenticated = sessionStore.sessionToken;
 
   if (to.meta.requiresAuth && !isAuthenticated) {
     next({ name: "signIn" });

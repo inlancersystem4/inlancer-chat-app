@@ -12,7 +12,6 @@ const {
 } = require("../utils/responseHandlers");
 
 const generateToken = (user) => {
-  console.log("user ==>", user);
   const token = jwt.sign({ user_id: user.user_id }, jwtSecret, {
     expiresIn: "1h",
   });
@@ -30,7 +29,7 @@ exports.signUp = async (req, res) => {
     });
 
     if (existingUser) {
-      return errorResponse(res, "User already exists");
+      return validationErrorWithData(res, "User already exists" , {});
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -49,10 +48,11 @@ exports.signUp = async (req, res) => {
       user_id: newUser.user_id,
       login_time: new Date(),
       token,
+      expired_at: new Date(new Date().getTime() + 60 * 60 * 1000),
       status: 1,
     });
 
-    return successResponseWithData(res, "User created successfully", {
+    return successResponseWithData(res, "account created successfully", {
       token,
       session_id: session.session_id,
     });
@@ -62,40 +62,42 @@ exports.signUp = async (req, res) => {
   }
 };
 
-// exports.signIn = async (req, res) => {
-//   try {
-//     const { username, password } = req.body;
+exports.signIn = async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-//     const user = await User.findOne({
-//       where: { username },
-//     });
+    const user = await User.findOne({
+      where: { email },
+    });
 
-//     if (!user) {
-//       return errorResponse(res, "User not found");
-//     }
+    if (!user) {
+      return validationErrorWithData(res, "User not found" , {});
+    }
 
-//     const isPasswordValid = await bcrypt.compare(password, user.password);
-//     if (!isPasswordValid) {
-//       return errorResponse(res, "Invalid password");
-//     }
+    const isPasswordValid = await bcrypt.compare(password, user.password_hash);
+    if (!isPasswordValid) {
+      return validationErrorWithData(res, "Invalid password" , {});
+    }
 
-//     const session = await Session.create({
-//       user_id: user.user_id,
-//       login_time: new Date(),
-//       status: 1,
-//     });
+    const token = generateToken(user);
 
-//     const token = generateToken(user);
+    const session = await Session.create({
+      user_id: user.user_id,
+      login_time: new Date(),
+      token,
+      expired_at: new Date(new Date().getTime() + 60 * 60 * 1000),
+      status: 1,
+    });
 
-//     return successResponseWithData(res, "Login successful", {
-//       token,
-//       session_id: session.session_id,
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     return errorResponse(res, "Internal server error");
-//   }
-// };
+    return successResponseWithData(res, "Login successfully", {
+      token,
+      session_id: session.session_id,
+    });
+  } catch (error) {
+    console.error(error);
+    return errorResponse(res, "Internal server error");
+  }
+};
 
 // exports.resetPassword = async (req, res) => {
 //   try {

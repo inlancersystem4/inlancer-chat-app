@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
-import Cookies from "js-cookie"; 
+import Cookies from "js-cookie";
 
 export const useSessionStore = defineStore("session", () => {
   const sessionToken = ref(Cookies.get("sessionToken") || "");

@@ -12,7 +12,7 @@ const mode = useColorMode();
 const { charging, level } = useBattery();
 const fps = useFps();
 
-mode.value = "auto";
+mode.value = "light";
 </script>
 
 <template>
