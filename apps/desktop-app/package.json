@@ -18,6 +18,7 @@
     "@tauri-apps/plugin-opener": "^2",
     "@vee-validate/zod": "^4.15.0",
     "@vueuse/core": "^12.3.0",
+    "axios": "^1.7.9",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "pinia": "^2.3.0",

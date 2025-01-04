@@ -17,9 +17,12 @@ import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
+import { post } from "@/utils/apiHelper";
 
 const formSchema = toTypedSchema(
   z.object({
+    fname: z.string().min(1, "first name is required"),
+    lname: z.string().min(1, "lname name is required"),
     email: z
       .string()
       .min(2, "Email is required")
@@ -46,7 +49,26 @@ const { isFieldDirty, handleSubmit } = useForm({
 });
 
 const onSubmit = handleSubmit(async (values) => {
-  console.log("Form submitted!", values);
+  isLoading.value = true;
+
+  try {
+    const response = await post("auth/sign-up", {
+      fname: values.fname,
+      lname: values.lname,
+      email: values.email,
+      password: values.password,
+    });
+
+    if (response.success == 1) {
+      console.log(response);
+    } else {
+      console.log(response);
+    }
+  } catch (error) {
+    console.log(error);
+  } finally {
+    isLoading.value = false;
+  }
 });
 </script>
 
@@ -59,7 +81,35 @@ const onSubmit = handleSubmit(async (values) => {
           Enter your email below to sign up for a new account
         </p>
       </div>
-      <div class="grid gap-6">
+      <div class="grid gap-5">
+        <div class="grid grid-cols-2 gap-4">
+          <FormField
+            v-slot="{ componentField }"
+            name="fname"
+            :validate-on-blur="!isFieldDirty"
+          >
+            <FormItem>
+              <FormLabel>First Name</FormLabel>
+              <FormControl>
+                <Input placeholder="jhon" v-bind="componentField" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          </FormField>
+          <FormField
+            v-slot="{ componentField }"
+            name="lname"
+            :validate-on-blur="!isFieldDirty"
+          >
+            <FormItem>
+              <FormLabel>Last Name</FormLabel>
+              <FormControl>
+                <Input placeholder="deo" v-bind="componentField" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          </FormField>
+        </div>
         <FormField
           v-slot="{ componentField }"
           name="email"
