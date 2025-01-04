@@ -4,7 +4,7 @@ import { defineStore } from "pinia";
 export const useAuthStore = defineStore("auth", () => {
   const lastValue = ref(null);
 
-  function setLastForm(value) {
+  function setLastForm(value: any) {
     lastValue.value = value;
   }
 

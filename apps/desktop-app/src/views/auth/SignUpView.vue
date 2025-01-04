@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useSessionStore } from "@/stores";
 import {
   FormControl,
   FormDescription,
@@ -15,9 +16,11 @@ import {
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
-import { ref } from "vue";
+import { effectScope, ref } from "vue";
 import { Icon } from "@iconify/vue";
+import { toast } from "vue-sonner";
 import { post } from "@/utils/apiHelper";
+import { useRouter } from "vue-router";
 
 const formSchema = toTypedSchema(
   z.object({
@@ -42,7 +45,9 @@ const formSchema = toTypedSchema(
   })
 );
 
+const router = useRouter();
 const isLoading = ref(false);
+const sessionStore = useSessionStore();
 
 const { isFieldDirty, handleSubmit } = useForm({
   validationSchema: formSchema,
@@ -60,12 +65,14 @@ const onSubmit = handleSubmit(async (values) => {
     });
 
     if (response.success == 1) {
-      console.log(response);
+      toast.success(response.message);
+      sessionStore.setSessionToken(response.data.token);
+      router.push("/");
     } else {
-      console.log(response);
+      toast.error(response.message);
     }
-  } catch (error) {
-    console.log(error);
+  } catch (e) {
+    toast.error(e || "500");
   } finally {
     isLoading.value = false;
   }

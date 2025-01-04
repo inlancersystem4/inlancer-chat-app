@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useSessionStore } from "@/stores";
 import {
   FormControl,
   FormDescription,
@@ -17,6 +18,9 @@ import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
+import { toast } from "vue-sonner";
+import { post } from "@/utils/apiHelper";
+import { useRouter } from "vue-router";
 
 const formSchema = toTypedSchema(
   z.object({
@@ -39,14 +43,35 @@ const formSchema = toTypedSchema(
   })
 );
 
+const router = useRouter();
 const isLoading = ref(false);
+const sessionStore = useSessionStore();
 
 const { isFieldDirty, handleSubmit } = useForm({
   validationSchema: formSchema,
 });
 
 const onSubmit = handleSubmit(async (values) => {
-  console.log("Form submitted!", values);
+  isLoading.value = true;
+
+  try {
+    const response = await post("auth/sign-in", {
+      email: values.email,
+      password: values.password,
+    });
+
+    if (response.success == 1) {
+      toast.success(response.message);
+      sessionStore.setSessionToken(response.data.token);
+      router.push("/");
+    } else {
+      toast.error(response.message);
+    }
+  } catch (e) {
+    toast.error(e || "500");
+  } finally {
+    isLoading.value = false;
+  }
 });
 </script>
 
@@ -77,7 +102,11 @@ const onSubmit = handleSubmit(async (values) => {
             <FormMessage />
           </FormItem>
         </FormField>
-        <FormField v-slot="{ componentField }" name="password" :validate-on-blur="!isFieldDirty">
+        <FormField
+          v-slot="{ componentField }"
+          name="password"
+          :validate-on-blur="!isFieldDirty"
+        >
           <FormItem>
             <div class="flex justify-between">
               <FormLabel>Password</FormLabel>

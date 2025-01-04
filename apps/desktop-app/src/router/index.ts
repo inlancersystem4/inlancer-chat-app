@@ -1,10 +1,12 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import { useSessionStore } from "@/stores/session";
 
 const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: "home",
     component: () => import("@/views/HomeView.vue"),
+    meta: { requiresAuth: true },
   },
   {
     path: "/sign-in",
@@ -45,6 +47,19 @@ const routes: RouteRecordRaw[] = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  console.log(from);
+
+  const sessionStore = useSessionStore();
+  const isAuthenticated = sessionStore.sessionToken.value;
+
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    next({ name: "signIn" });
+  } else {
+    next();
+  }
 });
 
 export default router;

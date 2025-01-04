@@ -1,13 +1,16 @@
 import axios from "axios";
+import { useSessionStore } from "@/stores";
 
 const apiUrl = import.meta.env.VITE_API_KEY;
+const sessionStore = useSessionStore();
 
 const api = axios.create({
   baseURL: apiUrl,
   timeout: 10000,
-  // headers: {
-  //   "Content-Type": "application/json",
-  // },
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: sessionStore.sessionToken,
+  },
 });
 
 export const post = async (endpoint, data) => {
