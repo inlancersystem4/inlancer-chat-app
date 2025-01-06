@@ -1,13 +1,16 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
-import Cookies from "js-cookie";
+import Cookie from "tiny-cookie";
 
 export const useSessionStore = defineStore("session", () => {
-  const sessionToken = ref(Cookies.get("sessionToken") || "");
+  const sessionToken = ref<string>(Cookie.get("sessionToken") || "");
 
-  function setSessionToken(value: any) {
+  function setSessionToken(value: string) {
     sessionToken.value = value;
-    Cookies.set("sessionToken", value, { expires: 1 / 24 });
+    Cookie.set("sessionToken", value, {
+      path: "/",
+      expires: 1 / 24, // 1 hour
+    });
   }
 
   return { setSessionToken, sessionToken };

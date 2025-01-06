@@ -51,12 +51,15 @@ const { isPending, isError, data, error } = useQuery({
       <Icon icon="subway:error" class="w-7 h-7" />
     </div>
     <div
-      v-if="!isPending && !isError && data && data.length == 0"
+      v-if="!isPending && !isError && data.users && data.users.length == 0"
       class="py-12 text-center"
     >
       <Icon icon="iconoir:db-error" class="w-7 h-7" />
     </div>
-    <ul class="grid grid-cols-2 gap-4" v-else>
+    <ul
+      class="grid grid-cols-2 gap-4"
+      v-else-if="data && data.users && data.users.length > 0"
+    >
       <li
         class="w-full border border-input rounded-lg cursor-pointer p-2.5 flex gap-4 items-center"
       >

@@ -28,9 +28,9 @@ exports.allUser = async (req, res) => {
     });
 
     return successResponseWithData(res, "Users retrieved successfully", {
-      totalUsers: count,
-      currentPage: pageNumber,
-      totalPages: Math.ceil(count / limitNumber),
+      total_records: count,
+      current_page: pageNumber,
+      total_pages: Math.ceil(count / limitNumber),
       users,
     });
   } catch (error) {

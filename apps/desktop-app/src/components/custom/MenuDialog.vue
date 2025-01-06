@@ -91,7 +91,9 @@ function openTab(tabValue) {
           </ul>
         </aside>
         <div class="w-full p-4">
-          <component :is="activeTab" />
+          <KeepAlive>
+            <component :is="activeTab" />
+          </KeepAlive>
         </div>
       </div>
     </DialogScrollContent>
