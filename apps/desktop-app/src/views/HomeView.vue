@@ -30,7 +30,7 @@ const toggleMenu = ref(false);
               @click="toggleMenu = !toggleMenu"
             >
               <Icon icon="teenyicons:menu-outline" />
-              <MenuDialog v-if="toggleMenu" />
+              <MenuDialog :open="toggleMenu" @close="toggleMenu = false" />
             </Button>
             <div class="relative w-full">
               <Input

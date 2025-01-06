@@ -29,7 +29,7 @@ exports.signUp = async (req, res) => {
     });
 
     if (existingUser) {
-      return validationErrorWithData(res, "User already exists" , {});
+      return validationErrorWithData(res, "User already exists", {});
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -71,12 +71,12 @@ exports.signIn = async (req, res) => {
     });
 
     if (!user) {
-      return validationErrorWithData(res, "User not found" , {});
+      return validationErrorWithData(res, "User not found", {});
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password_hash);
     if (!isPasswordValid) {
-      return validationErrorWithData(res, "Invalid password" , {});
+      return validationErrorWithData(res, "Invalid password", {});
     }
 
     const token = generateToken(user);

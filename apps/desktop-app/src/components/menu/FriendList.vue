@@ -2,14 +2,36 @@
 import { Input } from "@/components/ui/input";
 import { Icon } from "@iconify/vue";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { post } from "@/utils/apiHelper";
+import { useQuery } from "@tanstack/vue-query";
+
+async function fetchUsers() {
+  const response = await post("user/users", {
+    page: 1,
+    limit: 20,
+    search: "",
+  });
+  if (response.success == 1) {
+    return response;
+  } else {
+    return null;
+  }
+}
+
+const { isPending, isError, data, error } = useQuery({
+  queryKey: ["allUsers"],
+  queryFn: fetchUsers,
+});
 </script>
 
 <template>
   <div class="w-full space-y-6">
+    <h4 class="text-xl font-semibold capitalize">Add Friend</h4>
     <div class="relative w-full">
       <Input
         id="search"
         type="text"
+        :disabled="isPending || isError"
         placeholder="Search..."
         class="pl-8 bg-secondary max-h-8"
       />
@@ -22,7 +44,19 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
         />
       </span>
     </div>
-    <ul class="grid grid-cols-2 gap-4">
+    <div v-if="isPending" class="flex items-center justify-center py-12">
+      <Icon icon="pixelarticons:loader" class="w-7 h-7 animate-spin" />
+    </div>
+    <div v-if="isError" class="flex items-center justify-center py-12">
+      <Icon icon="subway:error" class="w-7 h-7" />
+    </div>
+    <div
+      v-if="!isPending && !isError && data && data.length == 0"
+      class="py-12 text-center"
+    >
+      <Icon icon="iconoir:db-error" class="w-7 h-7" />
+    </div>
+    <ul class="grid grid-cols-2 gap-4" v-else>
       <li
         class="w-full border border-input rounded-lg cursor-pointer p-2.5 flex gap-4 items-center"
       >

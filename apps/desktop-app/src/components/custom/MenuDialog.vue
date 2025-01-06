@@ -2,6 +2,7 @@
 import {
   Dialog,
   DialogScrollContent,
+  DialogClose,
   DialogDescription,
   DialogFooter,
   DialogHeader,
@@ -10,8 +11,13 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import FriendList from "../menu/FriendList.vue";
+import { Icon } from "@iconify/vue";
 import Profile from "../menu/Profile.vue";
 import { ref } from "vue";
+
+const props = defineProps({
+  open: Boolean,
+});
 
 const tabList = ref([
   {
@@ -32,7 +38,6 @@ const tabList = ref([
 ]);
 
 const activeTab = ref(tabList.value[0].component);
-const isactive = ref(true);
 
 function openTab(tabValue) {
   activeTab.value = tabValue.component;
@@ -40,19 +45,33 @@ function openTab(tabValue) {
 </script>
 
 <template>
-  <Dialog :open="isactive">
+  <Dialog :open="open">
     <DialogScrollContent class="max-w-4xl p-0 gap-0">
       <DialogHeader class="p-4">
-        <div class="flex items-center gap-4">
-          <Avatar
-            class="max-w-9 max-h-9 outline outline-green-500 outline-offset-2"
-          >
-            <AvatarImage src="https://github.com" alt="@radix-vue" />
-            <AvatarFallback>JK</AvatarFallback>
-          </Avatar>
-          <div>
-            <h6 class="font-semibold text-base line-clamp-1">Jeet kasundra</h6>
+        <div class="w-full flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <Avatar
+              class="max-w-9 max-h-9 outline outline-green-500 outline-offset-2"
+            >
+              <AvatarImage src="https://github.com" alt="@radix-vue" />
+              <AvatarFallback>JK</AvatarFallback>
+            </Avatar>
+            <div>
+              <h6 class="font-semibold text-base line-clamp-1">
+                Jeet kasundra
+              </h6>
+            </div>
           </div>
+          <DialogClose as-child>
+            <Button
+              type="button"
+              size="icon"
+              @click="$emit('close')"
+              variant="secondary"
+            >
+              <Icon icon="majesticons:close" />
+            </Button>
+          </DialogClose>
         </div>
       </DialogHeader>
       <div

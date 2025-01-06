@@ -12,6 +12,7 @@ import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import * as z from "zod";
 
@@ -30,10 +31,31 @@ const onSubmit = handleSubmit(async (values) => {
   <form @submit.prevent="onSubmit" class="w-full space-y-6">
     <h4 class="text-xl font-semibold capitalize">Profile changes</h4>
     <div class="space-y-4">
-      <div class="space-y-2">
-        <p class="text-muted-foreground">Avatar</p>
-      </div>
       <div class="grid grid-cols-2 gap-4">
+        <FormField
+          v-slot="{ componentField }"
+          name="avatar"
+          :validate-on-blur="!isFieldDirty"
+        >
+          <FormItem>
+            <FormLabel class="text-muted-foreground">Avatar</FormLabel>
+            <FormControl>
+              <div class="w-full flex items-center gap-2">
+                <Avatar>
+                  <AvatarImage src="https://github.com" alt="@radix-vue" />
+                  <AvatarFallback>JK</AvatarFallback>
+                </Avatar>
+                <Input
+                  type="file"
+                  class="bg-secondary"
+                  v-bind="componentField"
+                />
+              </div>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+        <div></div>
         <FormField
           v-slot="{ componentField }"
           name="username"

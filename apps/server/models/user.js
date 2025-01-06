@@ -35,16 +35,9 @@ const User = sequelize.define(
       type: DataTypes.STRING(255),
       allowNull: true,
     },
-    date_of_birth: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-    phone_no: {
+    bio: {
       type: DataTypes.STRING(255),
       allowNull: true,
-      validate: {
-        isNumeric: true,
-      },
     },
     last_login: {
       type: DataTypes.DATE,
